@@ -41,10 +41,39 @@ nav.main-nav{display:flex;align-items:center}
 .dropdown a:hover{background:var(--blue-light);color:var(--blue);padding-left:1.8rem}
 
 .header-actions{display:flex;align-items:center;gap:.8rem}
-.btn-outline{border:2px solid var(--blue);color:var(--blue);background:transparent;padding:.5rem 1.2rem;border-radius:4px;font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;transition:all .2s;cursor:pointer}
+.btn-outline{border:2px solid var(--blue);color:var(--blue);background:transparent;padding:.5rem 1.2rem;border-radius:6px;font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;transition:all .2s;cursor:pointer;font-family:inherit}
 .btn-outline:hover{background:var(--blue);color:#fff}
-.btn-solid{background:var(--blue);color:#fff;padding:.55rem 1.3rem;border-radius:4px;font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;transition:all .2s;cursor:pointer;border:none}
-.btn-solid:hover{background:var(--blue-dark)}
+.btn-solid{background:var(--cyan);color:#fff;padding:.55rem 1.3rem;border-radius:6px;font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;transition:all .2s;cursor:pointer;border:none;font-family:inherit}
+.btn-solid:hover{background:#007fa0;transform:translateY(-1px)}
+
+/* ── HAMBURGER ── */
+.hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:40px;height:40px;background:none;border:none;cursor:pointer;padding:6px;border-radius:6px;transition:background .2s}
+.hamburger:hover{background:var(--gray-bg)}
+.hamburger span{display:block;height:2px;background:var(--dark);border-radius:2px;transition:all .3s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ── MOBILE NAV DRAWER ── */
+.mobile-nav{display:block;position:fixed;top:0;left:0;right:0;bottom:0;z-index:500;pointer-events:none;visibility:hidden}
+.mobile-nav.open{pointer-events:all}
+.mobile-nav-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .3s}
+.mobile-nav.open .mobile-nav-overlay{opacity:1}
+.mobile-nav-drawer{position:absolute;top:0;left:0;bottom:0;width:300px;background:#fff;overflow-y:auto;transform:translateX(-100%);transition:transform .3s cubic-bezier(.25,.46,.45,.94);display:flex;flex-direction:column}
+.mobile-nav.open .mobile-nav-drawer{transform:translateX(0)}
+.mobile-nav-head{background:var(--blue-dark);padding:1.2rem 1.4rem;display:flex;align-items:center;justify-content:space-between}
+.mobile-nav-head img{height:38px;width:auto;filter:brightness(0) invert(1)}
+.mobile-nav-close{background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer;line-height:1;padding:.2rem .4rem}
+.mobile-nav-body{flex:1;padding:.5rem 0}
+.mob-nav-section{border-bottom:1px solid var(--gray-line)}
+.mob-nav-label{font-size:.65rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);padding:.8rem 1.4rem .3rem}
+.mob-nav-link{display:block;padding:.75rem 1.4rem;font-size:.88rem;font-weight:500;color:var(--dark);border:none;background:none;width:100%;text-align:left;cursor:pointer;font-family:inherit;transition:background .15s}
+.mob-nav-link:hover{background:var(--blue-light);color:var(--blue)}
+.mob-nav-link.primary{font-weight:700;color:var(--blue)}
+.mobile-nav-foot{padding:1.2rem 1.4rem;border-top:1px solid var(--gray-line);display:flex;flex-direction:column;gap:.7rem}
+.mob-btn-outline{display:block;text-align:center;border:2px solid var(--blue);color:var(--blue);background:transparent;padding:.7rem;border-radius:6px;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;font-family:inherit;width:100%}
+.mob-btn-solid{display:block;text-align:center;background:var(--cyan);color:#fff;padding:.75rem;border-radius:6px;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;border:none;font-family:inherit;width:100%}
+.mob-btn-solid:hover{background:#007fa0}
 
 /* ── EMERGENCY ── */
 .emergency-strip{background:var(--red);color:#fff;padding:.65rem 2rem;display:flex;justify-content:center;align-items:center;gap:2rem;font-size:.78rem;flex-wrap:wrap}
@@ -298,19 +327,79 @@ footer{background:var(--dark);color:#fff}
 .footer-bottom a:hover{color:rgba(255,255,255,.8)}
 .footer-links{display:flex;gap:1.5rem}
 
-/* ── RESPONSIVE ── */
+/* ══════════════════════════════════════
+   RESPONSIVE TABLET ≤ 1024px
+══════════════════════════════════════ */
 @media(max-width:1024px){
-  .hero-inner,.avvisi-wrap,.trans-grid,.footer-top,.content-with-sidebar,.contact-grid{grid-template-columns:1fr;gap:2rem}
-  .cards-3,.ql-grid{grid-template-columns:1fr 1fr}
-  .stats-grid,.qs-grid{grid-template-columns:repeat(3,1fr)}
   nav.main-nav{display:none}
+  .hamburger{display:flex}
+  .header-actions .btn-outline{display:none}
+  .hero-inner{grid-template-columns:1fr;gap:2rem;padding:3.5rem 1.5rem}
+  .hero-info-col{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+  .avvisi-wrap{grid-template-columns:1fr;gap:2rem}
+  .trans-grid{grid-template-columns:1fr 1fr;gap:1.2rem}
+  .footer-top{grid-template-columns:1fr 1fr;gap:2rem}
+  .content-with-sidebar{grid-template-columns:1fr;gap:2rem}
+  .contact-grid{grid-template-columns:1fr 1fr;gap:1.2rem}
+  .cards-3{grid-template-columns:1fr 1fr}
+  .ql-grid{grid-template-columns:1fr 1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .qs-grid{grid-template-columns:repeat(3,1fr)}
+  .sidebar-card{position:static}
+  .section{padding:3rem 1.5rem}
 }
+/* ══════════════════════════════════════
+   RESPONSIVE MOBILE ≤ 640px
+══════════════════════════════════════ */
 @media(max-width:640px){
-  .cards-3,.ql-grid{grid-template-columns:1fr}
-  .stats-grid,.qs-grid{grid-template-columns:1fr 1fr}
-  .emergency-strip{flex-direction:column;gap:.5rem;text-align:center}
-  .e-sep{display:none}.topbar{display:none}
-  .avviso-banner{flex-direction:column}.ab-cta{align-self:flex-start}
+  .topbar{display:none}
+  .header-main{padding:0 1rem;height:62px}
+  .logo img{height:40px}
+  .btn-solid{padding:.45rem .9rem;font-size:.75rem}
+  .emergency-strip{padding:.5rem 1rem;gap:.4rem;font-size:.72rem;flex-direction:column}
+  .e-sep{display:none}
+  .e-item{justify-content:center}
+  .hero{min-height:auto}
+  .hero-inner{grid-template-columns:1fr;padding:2.5rem 1rem;gap:1.5rem}
+  .hero-info-col{grid-template-columns:1fr}
+  .hero h1{font-size:1.9rem}
+  .hero p{font-size:.9rem}
+  .hero-btns{flex-direction:column;gap:.7rem}
+  .hero-btn-p,.hero-btn-s{width:100%;text-align:center;padding:.8rem 1rem}
+  .qs-grid{grid-template-columns:repeat(3,1fr)}
+  .qs-item{padding:1.1rem .5rem}
+  .qs-icon{font-size:1.3rem}
+  .qs-label{font-size:.62rem}
+  .iban-bar{padding:.9rem 1rem}
+  .iban-inner{flex-direction:column;gap:.5rem}
+  .avvisi-importanti{padding:1rem}
+  .avviso-banner{flex-direction:column;padding:1rem;gap:.8rem}
+  .ab-cta{align-self:flex-start;font-size:.7rem;padding:.4rem .8rem}
+  .ab-close{top:.6rem;right:.6rem}
+  .section{padding:2.5rem 1rem}
+  .section-h2{font-size:1.35rem}
+  .cards-3,.ql-grid,.trans-grid,.contact-grid{grid-template-columns:1fr;gap:1rem}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat-item{padding:1.8rem 1rem}
+  .stat-num{font-size:2rem}
+  .avvisi-wrap{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr;gap:1.8rem}
+  .footer-bottom{flex-direction:column;align-items:flex-start;gap:.5rem}
+  .footer-links{flex-direction:column;gap:.4rem}
+  .page-hero{padding:2rem 1rem}
+  .page-hero h1{font-size:1.5rem}
+  .page-hero p{font-size:.85rem}
+  .breadcrumb-bar{padding:.6rem 1rem}
+  .breadcrumb-inner{font-size:.72rem;flex-wrap:wrap;gap:.3rem}
+  .data-table{font-size:.78rem}
+  .data-table th,.data-table td{padding:.6rem .7rem}
+  .news-row{flex-wrap:wrap;gap:.5rem}
+  .news-row-date{min-width:auto}
+  .download-item{flex-direction:column;align-items:flex-start;gap:.6rem}
+  .dl-badge{align-self:flex-start}
+  .hib{padding:1rem 1.2rem}
+  .hib-val{font-size:1.1rem}
+  .mobile-nav-drawer{width:85vw}
 }
 </style>
 </head>
@@ -394,6 +483,9 @@ footer{background:var(--dark);color:#fff}
     <div class="header-actions">
       <button class="btn-outline" onclick="navigate('modulistica')">Modulistica</button>
       <button class="btn-solid" onclick="window.open('https://aicaonline.allbookingservice.com/it/home/booking','_blank')">Prenota Online</button>
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu" onclick="toggleMobileNav()">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </header>
@@ -1074,7 +1166,80 @@ function renderPage(page, params={}) {
   }, 60);
 }
 
+/* ── MOBILE NAV ── */
+function toggleMobileNav(){
+  const nav = document.getElementById('mobile-nav');
+  const btn = document.getElementById('hamburger-btn');
+  nav.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+}
+function closeMobileNav(){
+  document.getElementById('mobile-nav').classList.remove('open');
+  const btn = document.getElementById('hamburger-btn');
+  if(btn) btn.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 renderPage('home');
 </script>
+<!-- MOBILE NAV DRAWER -->
+<div class="mobile-nav" id="mobile-nav">
+  <div class="mobile-nav-overlay" onclick="closeMobileNav()"></div>
+  <div class="mobile-nav-drawer">
+    <div class="mobile-nav-head">
+      <img src="https://www.aicaonline.it/wp-content/uploads/2026/01/cropped-LOGO-AICA-DEF.png" alt="AICA">
+      <button class="mobile-nav-close" onclick="closeMobileNav()">✕</button>
+    </div>
+    <div class="mobile-nav-body">
+      <div class="mob-nav-section">
+        <div class="mob-nav-label">Servizi Rapidi</div>
+        <button class="mob-nav-link primary" onclick="closeMobileNav();navigate('turni')">🕐 Turni Idrici</button>
+        <button class="mob-nav-link primary" onclick="closeMobileNav();navigate('modulistica')">📄 Modulistica</button>
+        <button class="mob-nav-link primary" onclick="closeMobileNav();navigate('autolettura')">🔢 Autolettura</button>
+      </div>
+      <div class="mob-nav-section">
+        <div class="mob-nav-label">Utenti</div>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('informazioni-utenti')">Informazioni per gli Utenti</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('bollette')">Bollette e Pagamenti</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('bonus-idrico')">Bonus Idrico</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('qualita-acqua')">Qualità dell'Acqua</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('tariffe')">Tariffe</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('carta-servizi')">Carta dei Servizi</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('regolamento')">Regolamento Utenza</button>
+      </div>
+      <div class="mob-nav-section">
+        <div class="mob-nav-label">Comunicazioni</div>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('avvisi')">Avvisi agli Utenti</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('comunicati')">Comunicati Stampa</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('gare')">Gare e Appalti</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('selezioni')">Selezioni Personale</button>
+      </div>
+      <div class="mob-nav-section">
+        <div class="mob-nav-label">Allacciamenti</div>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('allaccio-singolo')">Singola Abitazione</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('allaccio-complesso')">Complesso Immobiliare</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('allaccio-zona')">Zona senza Acquedotto</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('autobotte')">Fornitura Autobotte</button>
+      </div>
+      <div class="mob-nav-section">
+        <div class="mob-nav-label">Trasparenza</div>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('societa-trasparente')">Società Trasparente</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('gare')">TuttoGare</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('whistleblowing')">Whistleblowing</button>
+      </div>
+      <div class="mob-nav-section">
+        <div class="mob-nav-label">Contatti</div>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('lazienda')">L'Azienda</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('sedi')">Sedi e Sportelli</button>
+        <button class="mob-nav-link" onclick="closeMobileNav();navigate('contatti')">Recapiti</button>
+      </div>
+    </div>
+    <div class="mobile-nav-foot">
+      <button class="mob-btn-solid" onclick="closeMobileNav();window.open('https://aicaonline.allbookingservice.com/it/home/booking','_blank')">📅 Prenota Appuntamento</button>
+      <button class="mob-btn-outline" onclick="closeMobileNav();navigate('modulistica')">📄 Modulistica</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
