@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AICA – Azienda Idrica Comuni Agrigentini</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0055a5;--blue-dark:#003d7a;--blue-light:#e8f0fb;
+  --cyan:#009fc2;--cyan-light:#d9f2f8;--green:#00875a;
+  --white:#ffffff;--gray-bg:#f4f6f9;--gray-line:#dde3ec;
+  --gray-text:#5a6475;--dark:#0d1b2e;--red:#c0392b;--orange:#e67e22;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--dark);background:var(--white);overflow-x:hidden}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--blue-dark);color:rgba(255,255,255,.75);font-size:.72rem;letter-spacing:.04em;padding:0 2rem;display:flex;justify-content:space-between;align-items:center;height:36px;position:relative;z-index:201}
+.topbar a{color:rgba(255,255,255,.75);text-decoration:none;cursor:pointer}.topbar a:hover{color:#fff}
+.topbar-right{display:flex;gap:1.5rem}
+
+/* ── HEADER ── */
+header{position:sticky;top:0;z-index:200;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);transition:box-shadow .3s}
+.header-main{max-width:1280px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer}
+.logo img{height:52px;width:auto;object-fit:contain}
+.logo-info strong{display:block;font-size:.95rem;font-weight:700;color:var(--dark);line-height:1.1}
+.logo-info span{font-size:.66rem;color:var(--gray-text);letter-spacing:.08em;text-transform:uppercase}
+
+nav.main-nav{display:flex;align-items:center}
+.nav-item{position:relative;display:flex;align-items:center}
+.nav-item>a{display:flex;align-items:center;gap:4px;color:var(--dark);text-decoration:none;font-size:.82rem;font-weight:600;padding:0 .9rem;height:72px;letter-spacing:.02em;border-bottom:3px solid transparent;transition:all .15s;cursor:pointer}
+.nav-item>a:hover,.nav-item:hover>a,.nav-item>a.active{color:var(--blue);border-bottom-color:var(--blue)}
+.nav-chevron{font-size:.55rem;opacity:.5;margin-left:2px}
+.dropdown{position:absolute;top:100%;left:0;min-width:240px;background:#fff;box-shadow:0 8px 40px rgba(0,0,0,.12);border-top:3px solid var(--blue);border-radius:0 0 6px 6px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .2s;z-index:300}
+.nav-item:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+.dropdown a{display:block;padding:.7rem 1.4rem;font-size:.82rem;color:var(--dark);text-decoration:none;border-bottom:1px solid var(--gray-line);transition:all .15s;cursor:pointer}
+.dropdown a:last-child{border-bottom:none}
+.dropdown a:hover{background:var(--blue-light);color:var(--blue);padding-left:1.8rem}
+
+.header-actions{display:flex;align-items:center;gap:.8rem}
+.btn-outline{border:2px solid var(--blue);color:var(--blue);background:transparent;padding:.5rem 1.2rem;border-radius:4px;font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;transition:all .2s;cursor:pointer}
+.btn-outline:hover{background:var(--blue);color:#fff}
+.btn-solid{background:var(--blue);color:#fff;padding:.55rem 1.3rem;border-radius:4px;font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;transition:all .2s;cursor:pointer;border:none}
+.btn-solid:hover{background:var(--blue-dark)}
+
+/* ── EMERGENCY ── */
+.emergency-strip{background:var(--red);color:#fff;padding:.65rem 2rem;display:flex;justify-content:center;align-items:center;gap:2rem;font-size:.78rem;flex-wrap:wrap}
+.emergency-strip strong{font-size:.95rem}
+.e-item{display:flex;align-items:center;gap:8px}
+.e-sep{width:1px;height:20px;background:rgba(255,255,255,.35)}
+
+/* ── PAGE TRANSITION ── */
+#app{transition:opacity .18s}
+#app.fading{opacity:0}
+
+/* ── BREADCRUMB ── */
+.breadcrumb-bar{background:var(--gray-bg);border-bottom:1px solid var(--gray-line);padding:.7rem 2rem}
+.breadcrumb-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--gray-text)}
+.breadcrumb-inner a{color:var(--blue);text-decoration:none;cursor:pointer}.breadcrumb-inner a:hover{text-decoration:underline}
+.breadcrumb-inner span{color:var(--dark);font-weight:600}
+.breadcrumb-sep{color:var(--gray-line)}
+
+/* ── AVVISI IMPORTANTI BANNER ── */
+.avvisi-importanti{background:var(--gray-bg);border-bottom:1px solid var(--gray-line);padding:1.5rem 2rem}
+.avvisi-importanti-inner{max-width:1280px;margin:0 auto}
+.avvisi-importanti-title{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.avvisi-importanti-title::after{content:'';flex:1;height:1px;background:var(--gray-line)}
+.avviso-banner{background:#fff;border:1px solid var(--gray-line);border-left:5px solid var(--blue);border-radius:0 6px 6px 0;padding:1.2rem 1.6rem;margin-bottom:.8rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;cursor:pointer;transition:all .2s;position:relative}
+.avviso-banner:hover{border-left-color:var(--cyan);box-shadow:0 4px 16px rgba(0,85,165,.1);transform:translateX(3px)}
+.avviso-banner.urgente{border-left-color:var(--red);background:#fff8f8}
+.avviso-banner.concorso{border-left-color:var(--green)}
+.avviso-banner.bando{border-left-color:var(--orange)}
+.ab-left{display:flex;align-items:flex-start;gap:1rem;flex:1}
+.ab-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px}
+.ab-tag{display:inline-block;font-size:.63rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:2px 9px;border-radius:3px;margin-bottom:4px}
+.ab-tag.urgente{background:#fde8e8;color:var(--red)}
+.ab-tag.concorso{background:#e6f7ef;color:var(--green)}
+.ab-tag.bando{background:#fef3e2;color:var(--orange)}
+.ab-tag.avviso{background:var(--blue-light);color:var(--blue)}
+.ab-tag.selezione{background:#f0eaff;color:#5b21b6}
+.ab-title{font-size:.9rem;font-weight:700;color:var(--dark);line-height:1.45;margin-bottom:3px}
+.ab-desc{font-size:.78rem;color:var(--gray-text);line-height:1.6}
+.ab-cta{font-size:.73rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);white-space:nowrap;padding:.4rem .9rem;border:2px solid var(--blue);border-radius:4px;transition:all .2s;flex-shrink:0;align-self:center}
+.avviso-banner:hover .ab-cta{background:var(--blue);color:#fff}
+.ab-close{position:absolute;top:.8rem;right:.8rem;background:none;border:none;color:var(--gray-text);cursor:pointer;font-size:1rem;padding:.2rem .4rem;border-radius:3px;transition:all .15s;line-height:1}
+.ab-close:hover{background:var(--gray-line);color:var(--dark)}
+
+/* ── PAGE HERO ── */
+.page-hero{background:linear-gradient(105deg,var(--blue-dark) 0%,var(--blue) 100%);padding:3.2rem 2rem;position:relative;overflow:hidden}
+.page-hero::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1559825481-12a05cc00344?w=1200&q=50') center/cover;opacity:.07}
+.page-hero-inner{max-width:1280px;margin:0 auto;position:relative;z-index:1}
+.page-hero-tag{display:inline-block;background:var(--cyan);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 12px;border-radius:3px;margin-bottom:.7rem}
+.page-hero h1{font-family:'Source Serif 4',serif;font-size:clamp(1.7rem,3vw,2.6rem);color:#fff;font-weight:900;line-height:1.15;margin-bottom:.6rem}
+.page-hero p{color:rgba(255,255,255,.7);font-size:.95rem;max-width:620px;line-height:1.7}
+.page-hero-meta{display:flex;align-items:center;gap:1rem;margin-top:1rem;flex-wrap:wrap}
+.page-hero-date{font-size:.75rem;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:5px}
+.page-hero-tag2{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:3px 10px;border-radius:3px}
+.page-hero-tag2.urgente{background:rgba(192,57,43,.3);color:#ffb3a7}
+.page-hero-tag2.concorso{background:rgba(0,135,90,.3);color:#a7ffd8}
+.page-hero-tag2.bando{background:rgba(230,126,34,.3);color:#ffd9a7}
+.page-hero-tag2.avviso{background:rgba(0,159,194,.25);color:#a7e8f7}
+.page-hero-tag2.selezione{background:rgba(91,33,182,.3);color:#d8b4fe}
+
+/* ── SECTION COMMONS ── */
+.section{padding:4rem 2rem}
+.section-inner{max-width:1280px;margin:0 auto}
+.eyebrow{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--cyan);margin-bottom:.5rem}
+.section-h2{font-family:'Source Serif 4',serif;font-size:clamp(1.6rem,2.8vw,2.3rem);font-weight:900;color:var(--dark);line-height:1.2}
+.section-sub{margin-top:.7rem;font-size:.93rem;color:var(--gray-text);max-width:600px;line-height:1.75}
+.section-h2-white{color:#fff}.section-sub-white{color:rgba(255,255,255,.65)}
+.view-all{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);text-decoration:none;border-bottom:2px solid transparent;transition:all .2s;cursor:pointer}
+.view-all:hover{border-bottom-color:var(--blue)}
+hr.divider{border:none;border-top:1px solid var(--gray-line);margin:2.5rem 0}
+
+/* ── LAYOUT ── */
+.content-with-sidebar{display:grid;grid-template-columns:1fr 300px;gap:3rem;align-items:start}
+.sidebar-card{background:var(--gray-bg);border:1px solid var(--gray-line);border-radius:8px;padding:1.6rem;position:sticky;top:100px;margin-bottom:1.2rem}
+.sidebar-card h4{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);margin-bottom:1.1rem}
+.sidebar-link{display:flex;align-items:center;gap:9px;padding:.65rem 0;border-bottom:1px solid var(--gray-line);font-size:.84rem;color:var(--dark);text-decoration:none;cursor:pointer;transition:color .15s}
+.sidebar-link:last-child{border-bottom:none}.sidebar-link:hover{color:var(--blue)}
+
+/* ── PROSE ── */
+.prose h2{font-family:'Source Serif 4',serif;font-size:1.45rem;font-weight:700;color:var(--dark);margin:2rem 0 .7rem}
+.prose h3{font-size:.9rem;font-weight:700;color:var(--blue);margin:1.4rem 0 .4rem;text-transform:uppercase;letter-spacing:.04em}
+.prose p{font-size:.9rem;color:var(--gray-text);line-height:1.8;margin-bottom:.9rem}
+.prose ul{padding-left:1.5rem;margin-bottom:1rem}
+.prose li{font-size:.9rem;color:var(--gray-text);line-height:1.8;margin-bottom:.2rem}
+.prose strong{color:var(--dark);font-weight:700}
+.prose a{color:var(--blue);cursor:pointer}
+
+.info-box{background:var(--blue-light);border-left:4px solid var(--blue);border-radius:0 6px 6px 0;padding:1.1rem 1.5rem;margin:1.4rem 0}
+.info-box p{font-size:.87rem;color:var(--dark);line-height:1.7;margin:0}
+.warning-box{background:#fff8e1;border-left:4px solid #f4c430;border-radius:0 6px 6px 0;padding:1.1rem 1.5rem;margin:1.4rem 0}
+.warning-box p{font-size:.87rem;color:#5a4200;line-height:1.7;margin:0}
+.alert-box{background:#fde8e8;border-left:4px solid var(--red);border-radius:0 6px 6px 0;padding:1.1rem 1.5rem;margin:1.4rem 0}
+.alert-box p{font-size:.87rem;color:#7a1a1a;line-height:1.7;margin:0}
+
+/* ── CARDS ── */
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2rem}
+.card{background:#fff;border:1px solid var(--gray-line);border-radius:8px;overflow:hidden;transition:all .25s;cursor:pointer}
+.card:hover{box-shadow:0 8px 32px rgba(0,85,165,.1);transform:translateY(-2px)}
+.card-head{background:var(--blue);padding:1.4rem;display:flex;align-items:center;gap:.8rem}
+.card-head.cyan{background:var(--cyan)}.card-head.green{background:var(--green)}.card-head.dark{background:#1a3050}.card-head.teal{background:#007a6e}
+.card-icon{font-size:1.7rem}
+.card-head h3{font-size:.85rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.04em;line-height:1.3}
+.card-body{padding:1.2rem}
+.card-body p{font-size:.83rem;color:var(--gray-text);line-height:1.7}
+.card-foot{padding:.85rem 1.2rem;border-top:1px solid var(--gray-line)}
+.card-link{font-size:.73rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em}
+
+/* ── DOWNLOAD LIST ── */
+.download-list{display:flex;flex-direction:column;gap:.6rem;margin-top:1.4rem}
+.download-item{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.4rem;background:#fff;border:1px solid var(--gray-line);border-radius:6px;transition:all .2s;cursor:pointer;text-decoration:none;color:inherit}
+.download-item:hover{border-color:var(--blue);background:var(--blue-light)}
+.dl-left{display:flex;align-items:center;gap:12px}
+.dl-icon{font-size:1.4rem}
+.dl-name{font-size:.87rem;font-weight:600;color:var(--dark)}
+.dl-meta{font-size:.72rem;color:var(--gray-text)}
+.dl-badge{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;background:var(--blue-light);color:var(--blue);padding:3px 10px;border-radius:3px}
+
+/* ── NEWS LIST ── */
+.news-list{display:flex;flex-direction:column}
+.news-row{display:flex;align-items:flex-start;gap:1.2rem;padding:1.3rem 0;border-bottom:1px solid var(--gray-line);cursor:pointer;transition:padding-left .18s;text-decoration:none;color:inherit}
+.news-row:hover{padding-left:.5rem}
+.news-row-date{font-size:.7rem;color:var(--gray-text);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;min-width:90px;padding-top:3px}
+.news-row-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);flex-shrink:0;margin-top:6px}
+.news-row-content{flex:1}
+.news-row-tag{display:inline-block;font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;background:var(--blue-light);color:var(--blue);padding:2px 8px;border-radius:3px;margin-bottom:4px}
+.news-row-tag.urgente{background:#fde8e8;color:var(--red)}
+.news-row-tag.concorso{background:#e6f7ef;color:var(--green)}
+.news-row-tag.bando{background:#fef3e2;color:var(--orange)}
+.news-row-tag.selezione{background:#f0eaff;color:#5b21b6}
+.news-row-title{font-size:.88rem;font-weight:600;color:var(--dark);line-height:1.5}
+.news-row-excerpt{font-size:.8rem;color:var(--gray-text);margin-top:3px;line-height:1.6}
+
+/* ── SINGLE ARTICLE ── */
+.article-body{max-width:800px}
+.article-meta{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--gray-line)}
+.article-back{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:700;color:var(--blue);cursor:pointer;letter-spacing:.04em;text-transform:uppercase;margin-bottom:2rem;text-decoration:none}
+.article-back:hover{text-decoration:underline}
+
+/* ── DATA TABLE ── */
+.data-table{width:100%;border-collapse:collapse;font-size:.84rem;margin-top:1.4rem}
+.data-table th{background:var(--blue);color:#fff;padding:.85rem 1.1rem;text-align:left;font-size:.73rem;letter-spacing:.06em;text-transform:uppercase}
+.data-table td{padding:.85rem 1.1rem;border-bottom:1px solid var(--gray-line)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:nth-child(even) td{background:var(--gray-bg)}
+.data-table tr:hover td{background:var(--blue-light)}
+
+/* ── CONTACT GRID ── */
+.contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem;margin-top:1.8rem}
+.contact-card{background:#fff;border:1px solid var(--gray-line);border-radius:8px;padding:1.8rem}
+.contact-card h3{font-size:.95rem;font-weight:700;color:var(--dark);margin-bottom:1rem;padding-bottom:.7rem;border-bottom:2px solid var(--blue)}
+.contact-item{display:flex;align-items:flex-start;gap:9px;margin-bottom:.8rem;font-size:.86rem}
+.contact-item strong{color:var(--dark)}
+.contact-item span{color:var(--gray-text)}
+
+/* ── FAQ ── */
+.faq-item{background:#fff;border:1px solid var(--gray-line);border-radius:6px;margin-bottom:.65rem;overflow:hidden}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 1.5rem;cursor:pointer;font-size:.88rem;font-weight:600;color:var(--dark)}
+.faq-q:hover{background:var(--blue-light)}
+.faq-icon{width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;transition:transform .3s}
+.faq-a{padding:0 1.5rem 1.1rem;font-size:.85rem;color:var(--gray-text);line-height:1.75;display:none}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--cyan)}
+.faq-item.open .faq-a{display:block}
+
+/* ── HOMEPAGE HERO ── */
+.hero{position:relative;overflow:hidden;background:var(--dark);min-height:580px;display:flex;align-items:center}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(105deg,rgba(0,25,60,.95) 35%,rgba(0,55,110,.6) 65%,rgba(0,100,145,.25) 100%),url('https://images.unsplash.com/photo-1559825481-12a05cc00344?w=1800&q=85') center 55%/cover no-repeat;transition:transform .1s linear}
+.hero-inner{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:5rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-eyebrow{display:inline-block;background:var(--cyan);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 14px;border-radius:3px;margin-bottom:1.1rem}
+.hero h1{font-family:'Source Serif 4',serif;font-size:clamp(2.4rem,4.5vw,3.6rem);color:#fff;line-height:1.15;margin-bottom:1.1rem;font-weight:900}
+.hero h1 em{color:#7ec8e3;font-style:normal}
+.hero p{color:rgba(255,255,255,.72);font-size:1rem;line-height:1.75;margin-bottom:2rem;max-width:480px}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.hero-btn-p{background:var(--cyan);color:#fff;padding:.85rem 2rem;border-radius:4px;font-weight:700;font-size:.88rem;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;border:none;transition:all .2s}
+.hero-btn-p:hover{background:#007fa0;transform:translateY(-1px)}
+.hero-btn-s{background:transparent;color:#fff;padding:.85rem 2rem;border-radius:4px;font-weight:700;font-size:.88rem;letter-spacing:.04em;text-transform:uppercase;border:2px solid rgba(255,255,255,.45);cursor:pointer;transition:all .2s}
+.hero-btn-s:hover{border-color:#fff}
+.hero-info-col{display:flex;flex-direction:column;gap:1rem}
+.hib{background:rgba(255,255,255,.07);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-left:4px solid var(--cyan);border-radius:6px;padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1.1rem;cursor:pointer;transition:background .2s}
+.hib:hover{background:rgba(255,255,255,.12)}
+.hib-icon{font-size:1.9rem;flex-shrink:0}
+.hib-lbl{font-size:.67rem;color:var(--cyan);letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.hib-val{font-size:1.3rem;font-weight:800;color:#fff}
+.hib-dsc{font-size:.74rem;color:rgba(255,255,255,.5)}
+
+/* ── QUICK SERVICES BAR ── */
+.quick-services{background:var(--blue)}
+.qs-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.qs-item{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.6rem 1rem;cursor:pointer;color:#fff;border-right:1px solid rgba(255,255,255,.15);text-align:center;transition:background .2s;gap:.5rem}
+.qs-item:last-child{border-right:none}.qs-item:hover{background:var(--blue-dark)}
+.qs-icon{font-size:1.6rem}.qs-label{font-size:.73rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+
+/* ── IBAN BAR ── */
+.iban-bar{background:#fff8e1;border-left:5px solid #f4c430;padding:1rem 2rem}
+.iban-inner{max-width:1280px;margin:0 auto;display:flex;gap:1rem;align-items:flex-start}
+.iban-inner h5{font-size:.78rem;font-weight:800;color:#7a5c00;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.iban-inner p{font-size:.81rem;color:#5a4200;line-height:1.65}
+
+/* ── STATS ── */
+.stats-bg{background:var(--blue)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat-item{padding:2.8rem 2rem;text-align:center;border-right:1px solid rgba(255,255,255,.1)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:'Source Serif 4',serif;font-size:2.7rem;font-weight:900;color:#fff;line-height:1}
+.stat-num sup{font-size:1.1rem}
+.stat-label{font-size:.73rem;color:rgba(255,255,255,.6);margin-top:.4rem;text-transform:uppercase;letter-spacing:.08em}
+.stat-desc{font-size:.78rem;color:rgba(255,255,255,.4);margin-top:.2rem}
+
+/* ── AVVISI SIDEBAR ── */
+.avvisi-wrap{display:grid;grid-template-columns:2fr 1fr;gap:3rem;align-items:start}
+.avvisi-list{display:flex;flex-direction:column}
+.avviso-row{display:flex;align-items:flex-start;gap:1.1rem;padding:1.2rem 0;border-bottom:1px solid var(--gray-line);cursor:pointer;transition:padding-left .18s}
+.avviso-row:hover{padding-left:.5rem}
+.avviso-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);flex-shrink:0;margin-top:5px}
+.avviso-date{font-size:.69rem;color:var(--gray-text);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.avviso-title{font-size:.87rem;font-weight:600;color:var(--dark);line-height:1.5}
+
+.side-box{background:var(--blue);color:#fff;border-radius:8px;padding:1.6rem;margin-bottom:1.1rem}
+.side-box h4{font-family:'Source Serif 4',serif;font-size:1.05rem;margin-bottom:.9rem}
+.side-phone{display:flex;align-items:center;gap:9px;padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:.82rem}
+.side-phone:last-of-type{border-bottom:none}
+.side-phone strong{display:block;font-size:.98rem}
+
+/* ── TRASPARENZA ── */
+.trans-section{background:var(--dark)}
+.trans-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2.5rem}
+.trans-card{border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:2.3rem;cursor:pointer;display:flex;flex-direction:column;gap:.9rem;transition:all .25s}
+.trans-card:hover{border-color:var(--cyan);background:rgba(0,159,194,.06)}
+.trans-card-badge{width:50px;height:50px;border-radius:10px;background:rgba(0,159,194,.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+.trans-card h3{font-family:'Source Serif 4',serif;font-size:1.25rem;color:#fff}
+.trans-card p{font-size:.84rem;color:rgba(255,255,255,.5);line-height:1.75}
+.trans-link{font-size:.77rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--cyan);margin-top:auto}
+
+/* ── QUICK LINKS ── */
+.ql-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.ql-card{background:#fff;border:1px solid var(--gray-line);border-radius:8px;padding:1.4rem;cursor:pointer;display:flex;align-items:flex-start;gap:.9rem;transition:all .2s}
+.ql-card:hover{border-color:var(--blue);box-shadow:0 4px 20px rgba(0,85,165,.1)}
+.ql-icon{width:42px;height:42px;border-radius:10px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.ql-card h4{font-size:.82rem;font-weight:700;color:var(--dark);margin-bottom:2px}
+.ql-card p{font-size:.76rem;color:var(--gray-text);line-height:1.6}
+
+/* ── FOOTER ── */
+footer{background:var(--dark);color:#fff}
+.footer-main{max-width:1280px;margin:0 auto;padding:3.5rem 2rem 2rem}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.footer-brand p{font-size:.81rem;color:rgba(255,255,255,.4);line-height:1.75;max-width:260px;margin-top:.9rem}
+.footer-col h5{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);font-weight:700;margin-bottom:1rem}
+.footer-col a{display:block;font-size:.81rem;color:rgba(255,255,255,.5);text-decoration:none;margin-bottom:.5rem;cursor:pointer;transition:color .15s}
+.footer-col a:hover{color:#fff}
+.footer-col p{font-size:.81rem;color:rgba(255,255,255,.5);line-height:1.75}
+.footer-bottom{padding-top:1.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-size:.71rem;color:rgba(255,255,255,.3)}
+.footer-bottom a{color:rgba(255,255,255,.4);text-decoration:none;cursor:pointer}
+.footer-bottom a:hover{color:rgba(255,255,255,.8)}
+.footer-links{display:flex;gap:1.5rem}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .hero-inner,.avvisi-wrap,.trans-grid,.footer-top,.content-with-sidebar,.contact-grid{grid-template-columns:1fr;gap:2rem}
+  .cards-3,.ql-grid{grid-template-columns:1fr 1fr}
+  .stats-grid,.qs-grid{grid-template-columns:repeat(3,1fr)}
+  nav.main-nav{display:none}
+}
+@media(max-width:640px){
+  .cards-3,.ql-grid{grid-template-columns:1fr}
+  .stats-grid,.qs-grid{grid-template-columns:1fr 1fr}
+  .emergency-strip{flex-direction:column;gap:.5rem;text-align:center}
+  .e-sep{display:none}.topbar{display:none}
+  .avviso-banner{flex-direction:column}.ab-cta{align-self:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span>A.I.C.A. – Azienda Idrica Comuni Agrigentini · P.IVA 03021250844</span>
+  <div class="topbar-right">
+    <a onclick="navigate('privacy')">Privacy</a>
+    <a onclick="navigate('accessibilita')">Accessibilità</a>
+    <a onclick="navigate('whistleblowing')">Whistleblowing</a>
+    <a onclick="navigate('feedback')">Feedback</a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header id="site-header">
+  <div class="header-main">
+    <div class="logo" onclick="navigate('home')">
+      <img src="https://www.aicaonline.it/wp-content/uploads/2026/01/cropped-LOGO-AICA-DEF.png" alt="AICA – Azienda Idrica Comuni Agrigentini">
+    </div>
+    <nav class="main-nav">
+      <div class="nav-item">
+        <a onclick="navigate('turni')">Turni Idrici <span class="nav-chevron">▾</span></a>
+        <div class="dropdown">
+          <a onclick="navigate('turni')">Turni Settimanali</a>
+          <a onclick="navigate('avvisi')">Avvisi Interruzioni</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a onclick="navigate('utenti')">Utenti <span class="nav-chevron">▾</span></a>
+        <div class="dropdown">
+          <a onclick="navigate('informazioni-utenti')">Informazioni per gli Utenti</a>
+          <a onclick="navigate('bollette')">Bollette e Pagamenti</a>
+          <a onclick="navigate('bonus-idrico')">Bonus Idrico</a>
+          <a onclick="navigate('qualita-acqua')">Qualità dell'Acqua</a>
+          <a onclick="navigate('lettura-contatori')">Lettura Contatori</a>
+          <a onclick="navigate('tariffe')">Tariffe</a>
+          <a onclick="navigate('carta-servizi')">Carta dei Servizi</a>
+          <a onclick="navigate('regolamento')">Regolamento Utenza</a>
+          <a onclick="navigate('autolettura')">Autolettura Contatore</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a onclick="navigate('comunicazioni')">Comunicazioni <span class="nav-chevron">▾</span></a>
+        <div class="dropdown">
+          <a onclick="navigate('avvisi')">Avvisi agli Utenti</a>
+          <a onclick="navigate('comunicati')">Comunicati Stampa</a>
+          <a onclick="navigate('gare')">Gare e Appalti</a>
+          <a onclick="navigate('selezioni')">Selezioni Personale</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a onclick="navigate('allacciamento')">Allacciamenti <span class="nav-chevron">▾</span></a>
+        <div class="dropdown">
+          <a onclick="navigate('allaccio-singolo')">Singola Abitazione</a>
+          <a onclick="navigate('allaccio-complesso')">Complesso Immobiliare</a>
+          <a onclick="navigate('allaccio-zona')">Zona senza Acquedotto</a>
+          <a onclick="navigate('autobotte')">Fornitura Autobotte</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a onclick="navigate('trasparenza')">Trasparenza <span class="nav-chevron">▾</span></a>
+        <div class="dropdown">
+          <a onclick="navigate('societa-trasparente')">Società Trasparente</a>
+          <a onclick="navigate('gare')">TuttoGare</a>
+          <a onclick="navigate('whistleblowing')">Whistleblowing</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a onclick="navigate('contatti')">Contatti <span class="nav-chevron">▾</span></a>
+        <div class="dropdown">
+          <a onclick="navigate('lazienda')">L'Azienda</a>
+          <a onclick="navigate('sedi')">Sedi e Sportelli</a>
+          <a onclick="navigate('laboratorio')">Laboratorio di Analisi</a>
+          <a onclick="navigate('contatti')">Recapiti</a>
+        </div>
+      </div>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-outline" onclick="navigate('modulistica')">Modulistica</button>
+      <button class="btn-solid" onclick="window.open('https://aicaonline.allbookingservice.com/it/home/booking','_blank')">Prenota Online</button>
+    </div>
+  </div>
+</header>
+
+<!-- EMERGENCY -->
+<div class="emergency-strip">
+  <div class="e-item">🚨 <span>Pronto Intervento H24:</span> <strong>800 600 309</strong> <small>(gratuito)</small></div>
+  <div class="e-sep"></div>
+  <div class="e-item">🔌 <span>Nuovi Allacci:</span> <strong>800 555 506</strong> <small>(gratuito da fisso)</small></div>
+  <div class="e-sep"></div>
+  <div class="e-item">📞 <span>Centralino:</span> <strong>0922 441 539</strong></div>
+  <div class="e-sep"></div>
+  <div class="e-item">📧 <strong>info@aicaonline.it</strong></div>
+</div>
+
+<!-- APP -->
+<div id="app"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo" onclick="navigate('home')" style="margin-bottom:.3rem">
+          <img src="https://www.aicaonline.it/wp-content/uploads/2026/01/cropped-LOGO-AICA-DEF.png" alt="AICA" style="height:44px;filter:brightness(0) invert(1)">
+        </div>
+        <p>Azienda interamente a partecipazione pubblica nata il 2 agosto 2021. Gestisce il servizio idrico integrato della provincia di Agrigento.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Servizi</h5>
+        <a onclick="navigate('turni')">Turni Idrici</a>
+        <a onclick="navigate('modulistica')">Modulistica</a>
+        <a onclick="navigate('bonus-idrico')">Bonus Idrico</a>
+        <a onclick="navigate('qualita-acqua')">Qualità Acqua</a>
+        <a onclick="navigate('bollette')">Bollette</a>
+        <a onclick="navigate('autolettura')">Autolettura</a>
+      </div>
+      <div class="footer-col">
+        <h5>Informazioni</h5>
+        <a onclick="navigate('lazienda')">L'Azienda</a>
+        <a onclick="navigate('carta-servizi')">Carta dei Servizi</a>
+        <a onclick="navigate('regolamento')">Regolamento Utenza</a>
+        <a onclick="navigate('societa-trasparente')">Soc. Trasparente</a>
+        <a onclick="navigate('gare')">TuttoGare</a>
+        <a onclick="navigate('whistleblowing')">Whistleblowing</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contatti</h5>
+        <p>📞 0922 441 539<br>📠 0922 624 004<br><br>🚨 <strong style="color:#fff">800 600 309</strong><br>Pronto Intervento H24<br><br>📍 ex S.S. 189 Valle del Platani, 92100 Agrigento<br><br>📧 info@aicaonline.it</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 AICA – Azienda Idrica Comuni Agrigentini · P.IVA 03021250844</span>
+      <div class="footer-links">
+        <a onclick="navigate('accessibilita')">Dichiarazione di Accessibilità</a>
+        <a onclick="navigate('privacy')">Privacy</a>
+        <a onclick="navigate('feedback')">Feedback</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════
+   DATA: AVVISI & COMUNICATI
+═══════════════════════════════ */
+const AVVISI_IMPORTANTI = [
+  {
+    id:'avviso-autobotti-elenco',
+    tipo:'bando',
+    icona:'🚛',
+    titolo:'Elenco aperto degli operatori economici per l\'affidamento del "SERVIZIO DI TRASPORTO DI ACQUA POTABILE A MEZZO AUTOBOTTI"',
+    estratto:'AICA istituisce un elenco aperto per l\'affidamento del servizio di trasporto acqua potabile a mezzo autobotti. Gli operatori interessati possono presentare domanda in qualsiasi momento.',
+    data:'Aprile 2026',
+    link:'https://aica.tuttogare.it/albo_fornitori/dettaglio.php?codice=11',
+    corpo:`<p>A.I.C.A. – Azienda Idrica Comuni Agrigentini ha aperto un <strong>elenco permanente di operatori economici</strong> per l'affidamento del servizio di trasporto di acqua potabile a mezzo autobotti nel territorio della provincia di Agrigento.</p>
+    <h2>Chi può iscriversi</h2>
+    <p>Possono presentare istanza di iscrizione tutti gli operatori economici in possesso dei requisiti tecnici e morali previsti dalla normativa vigente e dall'avviso pubblico.</p>
+    <h2>Come presentare la domanda</h2>
+    <p>La domanda deve essere presentata tramite il portale <strong>AICA TuttoGare</strong>. È possibile presentare istanza in qualsiasi momento, l'elenco viene aggiornato periodicamente.</p>
+    <div class="info-box"><p>📋 Per accedere alla procedura e scaricare tutta la documentazione, utilizza il link al portale TuttoGare riportato in calce.</p></div>
+    <a href="https://aica.tuttogare.it/albo_fornitori/dettaglio.php?codice=11" target="_blank" class="btn-solid" style="display:inline-block;margin-top:1rem;border:none;text-decoration:none">Apri su TuttoGare ↗</a>`
+  },
+  {
+    id:'selezione-ufficio-legale',
+    tipo:'selezione',
+    icona:'⚖️',
+    titolo:'Selezione per N. 2 unità di personale full time a tempo determinato per la copertura temporanea dei ruoli previsti per l\'ufficio legale',
+    estratto:'L\'Azienda Idrica Comuni Agrigentini indice una selezione per titoli ed esami per l\'assunzione di n.2 unità di personale full-time, pari a 38,00/h settimanali, a tempo determinato per 12 mesi.',
+    data:'Febbraio 2026',
+    link:'https://aica.onlinepa.info/index.php?page=moduli&mod=6&ente=1&node=97',
+    corpo:`<p>L'Azienda Idrica Comuni Agrigentini indice una <strong>selezione per titoli ed esami</strong> per l'assunzione di n. 2 unità di personale full-time destinate all'Ufficio Legale dell'Azienda.</p>
+    <h2>Condizioni contrattuali</h2>
+    <ul>
+      <li>Orario: <strong>38,00 ore settimanali</strong> (full-time)</li>
+      <li>Contratto: <strong>tempo determinato – 12 mesi</strong></li>
+      <li>Proroga: facoltà di proroga fino a ulteriori 12 mesi</li>
+      <li>CCNL applicato: <strong>Gas e Acqua</strong></li>
+    </ul>
+    <h2>Come candidarsi</h2>
+    <p>Tutte le informazioni, le modalità di candidatura e gli allegati sono disponibili sul portale <strong>Società Trasparente di A.I.C.A.</strong> alla voce AVVISI DI SELEZIONE.</p>
+    <div class="info-box"><p>📋 Per consultare l'avviso completo e candidarsi, accedi al portale Società Trasparente tramite il pulsante qui sotto.</p></div>
+    <a href="https://aica.onlinepa.info/index.php?page=moduli&mod=6&ente=1&node=97" target="_blank" class="btn-solid" style="display:inline-block;margin-top:1rem;border:none;text-decoration:none">Vai a Società Trasparente ↗</a>`
+  },
+  {
+    id:'avviso-revisori-conti',
+    tipo:'avviso',
+    icona:'📊',
+    titolo:'Avviso pubblico per la nomina del Collegio dei Revisori dei conti per il triennio 2025-2027',
+    estratto:'AICA deve procedere alla nomina dei revisori dei conti per il triennio 2025-2027. L\'avviso è aperto a professionisti iscritti nel Registro dei Revisori Legali.',
+    data:'Dicembre 2025',
+    link:'https://www.aicaonline.it/wp-content/uploads/2025/12/Avviso-pubblico-per-la-nomina-del-collegio-dei-Revisori-dei-conti-triennio-2025-2027.pdf',
+    corpo:`<p>A.I.C.A. – Azienda Idrica Comuni Agrigentini deve procedere, con apposita deliberazione dell'Assemblea degli Enti Consorziati, alla <strong>nomina dei Revisori dei Conti</strong> per il triennio 2025-2027.</p>
+    <h2>Requisiti</h2>
+    <p>I candidati devono essere iscritti nel Registro dei Revisori Legali e possedere i requisiti previsti dalla normativa vigente e dallo Statuto aziendale.</p>
+    <div class="warning-box"><p>⚠️ I termini per la presentazione delle domande sono scaduti. È disponibile l'avviso di riapertura dei termini. Consultare la documentazione aggiornata.</p></div>
+    <a href="https://www.aicaonline.it/wp-content/uploads/2025/12/doc04464420251223092918.pdf" target="_blank" class="btn-solid" style="display:inline-block;margin-top:1rem;border:none;text-decoration:none">Avviso Riapertura Termini ↗</a>`
+  },
+  {
+    id:'avviso-consulta-utenti',
+    tipo:'avviso',
+    icona:'👥',
+    titolo:'Istituzione della Consulta degli Utenti – Art. 48 dello Statuto di AICA',
+    estratto:'AICA avvia il procedimento per l\'istituzione della Consulta degli Utenti del servizio idrico integrato, prevista dall\'art. 48 dello Statuto aziendale.',
+    data:'2025',
+    link:'https://www.aicaonline.it/avviso-istituzione-consulta-ex-art-48-dello-statuto-di-aica/',
+    corpo:`<p>A.I.C.A. – Azienda Idrica Comuni Agrigentini avvia il procedimento per l'<strong>istituzione della Consulta degli Utenti</strong> del servizio idrico integrato, organo previsto dall'art. 48 dello Statuto aziendale.</p>
+    <h2>Cos'è la Consulta degli Utenti</h2>
+    <p>La Consulta degli Utenti è un organo consultivo che rappresenta gli interessi degli utenti del servizio idrico integrato. Ha il compito di monitorare la qualità del servizio e proporre miglioramenti.</p>
+    <h2>Come partecipare</h2>
+    <p>Le associazioni dei consumatori e le organizzazioni di rappresentanza degli utenti possono presentare la propria candidatura secondo le modalità indicate nell'avviso.</p>
+    <a href="https://www.aicaonline.it/avviso-istituzione-consulta-ex-art-48-dello-statuto-di-aica/" target="_blank" class="btn-solid" style="display:inline-block;margin-top:1rem;border:none;text-decoration:none">Leggi l'avviso completo ↗</a>`
+  }
+];
+
+const COMUNICATI = [
+  {id:'lavori-canicatti-nilde-iotti',tipo:'Lavori',data:'10 Mar 2026',titolo:'Canicattì – Via Nilde Iotti: in completamento i lavori per la rete idrica',estratto:'I cittadini possono già presentare le istanze di allaccio alla nuova rete idrica in fase di completamento.',corpo:`<p>AICA comunica che sono in fase di completamento i <strong>lavori per la rete idrica in Via Nilde Iotti</strong> a Canicattì. I cittadini residenti nella zona possono già presentare le istanze di allaccio alla nuova rete.</p><h2>Come presentare l'istanza</h2><p>Per richiedere l'allacciamento alla nuova rete idrica, i cittadini devono compilare il modulo apposito e presentarlo presso lo sportello AICA di Canicattì oppure inviarlo via PEC a <strong>pec.aica@pec.it</strong>.</p><div class="info-box"><p>📋 Scarica il modulo di richiesta allacciamento dalla sezione <strong>Modulistica</strong> del sito AICA.</p></div>`},
+  {id:'autobotti-elenco-trasportatori',tipo:'Avviso',data:'3 Mar 2026',titolo:'AICA: avviso per l\'istituzione di elenchi aperti di autotrasportatori per il servizio di trasporto acqua potabile',estratto:'AICA istituisce un elenco aperto per operatori del trasporto acqua potabile a mezzo autobotte.',corpo:`<p>A.I.C.A. comunica l'apertura di un <strong>elenco aperto degli operatori economici</strong> per il servizio di trasporto acqua potabile a mezzo autobotti nel territorio provinciale.</p><p>Gli operatori interessati possono presentare domanda di iscrizione in qualsiasi momento tramite il portale TuttoGare.</p><a href="https://aica.tuttogare.it/albo_fornitori/dettaglio.php?codice=11" target="_blank" class="btn-solid" style="display:inline-block;margin-top:1rem;border:none;text-decoration:none">Apri l'avviso su TuttoGare ↗</a>`},
+  {id:'autobotti-canicatti-regolarizzazione',tipo:'Servizi',data:'9 Feb 2026',titolo:'Canicattì: servizio autobotti garantito anche agli utenti in fase di regolarizzazione',estratto:'AICA rassicura gli utenti: il servizio di fornitura tramite autobotti viene erogato anche durante i processi di regolarizzazione della posizione contrattuale.',corpo:`<p>A.I.C.A. comunica che il <strong>servizio di approvvigionamento idrico tramite autobotti</strong> viene garantito a tutti gli utenti di Canicattì, inclusi quelli attualmente in fase di regolarizzazione della propria posizione contrattuale.</p><p>La decisione è stata presa per assicurare la continuità nella fornitura dell'acqua potabile, bene primario e diritto fondamentale dei cittadini.</p>`},
+  {id:'fornitura-idrica-canicatti',tipo:'Rete Idrica',data:'9 Feb 2026',titolo:'Canicattì: AICA incrementa la fornitura idrica ai serbatoi comunali',estratto:'Obiettivo: ridurre le turnazioni e accompagnare i nuovi allacci alla rete idrica in corso di realizzazione.',corpo:`<p>A.I.C.A. comunica di aver significativamente <strong>incrementato la fornitura idrica ai serbatoi comunali</strong> di Canicattì, con l'obiettivo di ridurre la frequenza delle turnazioni e accompagnare l'attivazione dei nuovi allacci alla rete in corso di realizzazione.</p><p>L'intervento è parte di un piano più ampio di potenziamento dell'infrastruttura idrica nel territorio agrigentino.</p>`},
+  {id:'anomalia-contatori',tipo:'Comunicato',data:'21 Gen 2026',titolo:'AICA: "Nessuna anomalia generalizzata sui contatori"',estratto:'AICA smentisce informazioni fuorvianti e pericolose circolate a mezzo stampa riguardo a presunte anomalie generalizzate sui contatori idrici.',corpo:`<p>A.I.C.A. – Azienda Idrica Comuni Agrigentini precisa che <strong>non risultano anomalie generalizzate sui contatori idrici</strong> nel territorio gestito dall'azienda.</p><p>In risposta a un articolo giornalistico, l'azienda smentisce categoricamente le informazioni riportate, definendole fuorvianti e potenzialmente pericolose per la corretta gestione del servizio idrico.</p><div class="alert-box"><p>⚠️ Si invitano i cittadini a non intervenire autonomamente sui contatori e a segnalare qualsiasi anomalia al numero verde <strong>800 600 309</strong>.</p></div>`},
+  {id:'ringraziamento-carabinieri',tipo:'Comunicato',data:'20 Gen 2026',titolo:'AICA ringrazia i Carabinieri per il contrasto alle frodi idriche',estratto:'Ringraziamento ufficiale all\'Arma dei Carabinieri per il costante impegno nella tutela della legalità nel settore del servizio idrico.',corpo:`<p>A.I.C.A. – Azienda Idrica Comuni Agrigentini esprime il proprio <strong>ringraziamento all'Arma dei Carabinieri</strong> per il costante e prezioso impegno nella tutela della legalità nel settore del servizio idrico integrato.</p><p>Le attività di controllo e contrasto svolte dalle forze dell'ordine contribuiscono in modo determinante a garantire l'equità nella distribuzione dell'acqua e la sostenibilità economica del servizio pubblico.</p>`},
+];
+
+/* Mappa slug→articolo */
+const ARTICOLI = {};
+[...AVVISI_IMPORTANTI, ...COMUNICATI].forEach(a => { ARTICOLI[a.id] = a; });
+
+/* ═══════════════════════════════
+   ROUTER
+═══════════════════════════════ */
+const app = document.getElementById('app');
+let dismissedBanners = new Set();
+
+function navigate(page, params={}) {
+  app.classList.add('fading');
+  setTimeout(() => {
+    renderPage(page, params);
+    app.classList.remove('fading');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }, 180);
+}
+
+/* ═══════════════════════════════
+   SHARED HELPERS
+═══════════════════════════════ */
+function breadcrumb(crumbs) {
+  const parts = [{label:'Home',page:'home'}, ...crumbs];
+  return `<div class="breadcrumb-bar"><div class="breadcrumb-inner">
+    ${parts.map((c,i) => i < parts.length-1
+      ? `<a onclick="navigate('${c.page}')">${c.label}</a><span class="breadcrumb-sep">›</span>`
+      : `<span>${c.label}</span>`
+    ).join('')}
+  </div></div>`;
+}
+
+function pageHero(tag, title, desc, tipo='', data='') {
+  return `<div class="page-hero"><div class="page-hero-inner">
+    <span class="page-hero-tag">${tag}</span>
+    <h1>${title}</h1>
+    ${desc ? `<p>${desc}</p>` : ''}
+    ${(tipo||data) ? `<div class="page-hero-meta">
+      ${tipo ? `<span class="page-hero-tag2 ${tipo}">${tipo.charAt(0).toUpperCase()+tipo.slice(1)}</span>` : ''}
+      ${data ? `<span class="page-hero-date">📅 ${data}</span>` : ''}
+    </div>` : ''}
+  </div></div>`;
+}
+
+function sidebar(title, links) {
+  return `<div class="sidebar-card"><h4>${title}</h4>
+    ${links.map(l=>`<a class="sidebar-link" onclick="navigate('${l.page}')"><span>${l.icon}</span>${l.label}</a>`).join('')}
+  </div>`;
+}
+
+function tagClass(tipo) {
+  const map = {urgente:'urgente',concorso:'concorso',bando:'bando',selezione:'selezione'};
+  return map[tipo.toLowerCase()] || 'avviso';
+}
+
+/* ═══════════════════════════════
+   AVVISI IMPORTANTI BLOCK (homepage + sezione)
+═══════════════════════════════ */
+function avvisiImportantiBlock() {
+  const visible = AVVISI_IMPORTANTI.filter(a => !dismissedBanners.has(a.id));
+  if (!visible.length) return '';
+  return `<div class="avvisi-importanti">
+    <div class="avvisi-importanti-inner">
+      <div class="avvisi-importanti-title">📌 Avvisi Importanti</div>
+      ${visible.map(a => `
+        <div class="avviso-banner ${tagClass(a.tipo)}" id="banner-${a.id}">
+          <div class="ab-left">
+            <span class="ab-icon">${a.icona}</span>
+            <div>
+              <span class="ab-tag ${tagClass(a.tipo)}">${a.tipo}</span>
+              <div class="ab-title">${a.titolo}</div>
+              <div class="ab-desc">${a.estratto}</div>
+            </div>
+          </div>
+          <span class="ab-cta" onclick="navigate('articolo',{id:'${a.id}'})">Apri l'avviso</span>
+          <button class="ab-close" onclick="dismissBanner('${a.id}')" title="Chiudi">✕</button>
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function dismissBanner(id) {
+  dismissedBanners.add(id);
+  const el = document.getElementById('banner-'+id);
+  if (el) { el.style.opacity='0'; el.style.transform='translateX(20px)'; setTimeout(()=>el.remove(), 300); }
+}
+
+/* ═══════════════════════════════
+   PAGE: HOME
+═══════════════════════════════ */
+function pageHome() {
+  return `
+  <section class="hero"><div class="hero-bg" id="hero-parallax"></div>
+    <div class="hero-inner">
+      <div>
+        <span class="hero-eyebrow">Servizio Idrico Integrato · Provincia di Agrigento</span>
+        <h1>L'acqua è tornata <em>pubblica</em></h1>
+        <p>Dal 2 agosto 2021 AICA gestisce captazione, distribuzione, fognatura e depurazione dell'intera provincia di Agrigento, interamente a partecipazione pubblica.</p>
+        <div class="hero-btns">
+          <button class="hero-btn-p" onclick="navigate('turni')">⏱ Turni Idrici</button>
+          <button class="hero-btn-s" onclick="navigate('utenti')">Servizi all'Utenza →</button>
+        </div>
+      </div>
+      <div class="hero-info-col">
+        <div class="hib" onclick="navigate('turni')"><div class="hib-icon">🕐</div><div><div class="hib-lbl">Turni Idrici</div><div class="hib-val">Orari Aggiornati</div><div class="hib-dsc">Consulta la turnazione per il tuo comune</div></div></div>
+        <div class="hib" onclick="window.open('https://aicaonline.allbookingservice.com/it/home/booking','_blank')"><div class="hib-icon">📅</div><div><div class="hib-lbl">Sportello</div><div class="hib-val">Prenota Appuntamento</div><div class="hib-dsc">Salta la fila · Scegli data e orario</div></div></div>
+        <div class="hib" onclick="navigate('bollette')"><div class="hib-icon">💳</div><div><div class="hib-lbl">Pagamenti</div><div class="hib-val">PagoPA & Bonifico</div><div class="hib-dsc">Monte dei Paschi o Poste Italiane</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="quick-services"><div class="qs-grid">
+    <div class="qs-item" onclick="navigate('turni')"><span class="qs-icon">🕐</span><span class="qs-label">Turni Idrici</span></div>
+    <div class="qs-item" onclick="navigate('modulistica')"><span class="qs-icon">📄</span><span class="qs-label">Modulistica</span></div>
+    <div class="qs-item" onclick="window.open('https://aicaonline.allbookingservice.com/it/home/booking','_blank')"><span class="qs-icon">📅</span><span class="qs-label">Prenota Online</span></div>
+    <div class="qs-item" onclick="navigate('autolettura')"><span class="qs-icon">🔢</span><span class="qs-label">Autolettura</span></div>
+    <div class="qs-item" onclick="navigate('bollette')"><span class="qs-icon">💳</span><span class="qs-label">Paga Online</span></div>
+  </div></div>
+
+  <div class="iban-bar"><div class="iban-inner">
+    <span style="font-size:1.4rem;flex-shrink:0">⚠️</span>
+    <div><h5>Importante – Aggiornamento IBAN</h5>
+    <p>L'IBAN IT37D0710816601000000000870 (BCC Agrigentino) <strong>non è più valido</strong>. Usare: <strong>IT96S0103016600000004575756 – Monte dei Paschi</strong> oppure <strong>IT20T0760116600001056669052 – Poste Italiane</strong>.</p></div>
+  </div></div>
+
+  ${avvisiImportantiBlock()}
+
+  <section class="section" style="background:var(--gray-bg)"><div class="section-inner">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:2rem">
+      <div><div class="eyebrow">Servizi all'Utenza</div><h2 class="section-h2">Tutto quello di cui hai bisogno</h2></div>
+      <span class="view-all" onclick="navigate('utenti')">Tutti i servizi →</span>
+    </div>
+    <div class="cards-3">
+      ${[
+        {bg:'',icon:'🕐',t:'Turni Idrici',d:'Orari e turnazioni nei comuni della provincia serviti da AICA.',p:'turni'},
+        {bg:'cyan',icon:'💧',t:'Bollette e Pagamenti',d:'Metodi di pagamento e guida alla lettura della bolletta.',p:'bollette'},
+        {bg:'green',icon:'🔬',t:'Qualità dell\'Acqua',d:'Dati e analisi certificate sull\'acqua distribuita.',p:'qualita-acqua'},
+        {bg:'teal',icon:'🎁',t:'Bonus Idrico',d:'Agevolazioni tariffarie per utenze in difficoltà economica.',p:'bonus-idrico'},
+        {bg:'dark',icon:'📄',t:'Modulistica',d:'Tutti i moduli scaricabili per i servizi all\'utenza.',p:'modulistica'},
+        {bg:'',icon:'📋',t:'Carta dei Servizi',d:'Diritti, standard di qualità e disposizioni sul servizio.',p:'carta-servizi'},
+      ].map(s=>`<div class="card" onclick="navigate('${s.p}')">
+        <div class="card-head ${s.bg}"><span class="card-icon">${s.icon}</span><h3>${s.t}</h3></div>
+        <div class="card-body"><p>${s.d}</p></div>
+        <div class="card-foot"><span class="card-link">Scopri »</span></div>
+      </div>`).join('')}
+    </div>
+  </div></section>
+
+  <div class="stats-bg"><div class="stats-grid">
+    <div class="stat-item"><div class="stat-num">800<sup>K</sup></div><div class="stat-label">Abitanti Serviti</div><div class="stat-desc">Provincia di Agrigento</div></div>
+    <div class="stat-item"><div class="stat-num">24<sup>h</sup></div><div class="stat-label">Pronto Intervento</div><div class="stat-desc">800 600 309 · Gratuito</div></div>
+    <div class="stat-item"><div class="stat-num">2021</div><div class="stat-label">Anno di Fondazione</div><div class="stat-desc">Ritorno al servizio pubblico</div></div>
+    <div class="stat-item"><div class="stat-num">100<sup>%</sup></div><div class="stat-label">Capitale Pubblico</div><div class="stat-desc">Interamente a partecipazione pubblica</div></div>
+  </div></div>
+
+  <section class="section" style="background:var(--gray-bg)"><div class="section-inner">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:2rem">
+      <div><div class="eyebrow">Comunicazioni</div><h2 class="section-h2">Avvisi e Comunicati</h2></div>
+      <span class="view-all" onclick="navigate('avvisi')">Tutti gli avvisi →</span>
+    </div>
+    <div class="avvisi-wrap">
+      <div class="avvisi-list">
+        ${COMUNICATI.map(n=>`<div class="avviso-row" onclick="navigate('articolo',{id:'${n.id}'})">
+          <div class="avviso-dot"></div>
+          <div><div class="avviso-date">${n.data}</div><div class="avviso-title">${n.titolo}</div></div>
+        </div>`).join('')}
+      </div>
+      <div>
+        <div class="side-box">
+          <h4>Numeri Utili</h4>
+          <div class="side-phone">🚨<div><strong>800 600 309</strong><span style="font-size:.74rem;color:rgba(255,255,255,.5);display:block">Emergenze · H24 · Gratuito</span></div></div>
+          <div class="side-phone">🔌<div><strong>800 555 506</strong><span style="font-size:.74rem;color:rgba(255,255,255,.5);display:block">Allacci e disattivazioni</span></div></div>
+          <div class="side-phone">📞<div><strong>0922 441 539</strong><span style="font-size:.74rem;color:rgba(255,255,255,.5);display:block">Centralino</span></div></div>
+        </div>
+        <div class="side-box" style="background:var(--cyan)">
+          <h4 style="font-size:1rem">Autolettura Contatore</h4>
+          <p style="font-size:.81rem;color:rgba(255,255,255,.85);line-height:1.65;margin-bottom:1rem">Comunica la tua lettura via WhatsApp con: CF, n° utenza, matricola, lettura.</p>
+          <button class="btn-solid" style="background:#fff;color:var(--cyan);border:none" onclick="navigate('autolettura')">Scopri come →</button>
+        </div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="section trans-section"><div class="section-inner">
+    <div class="eyebrow" style="color:var(--cyan)">Trasparenza</div>
+    <h2 class="section-h2 section-h2-white">AICA per la trasparenza</h2>
+    <p class="section-sub section-sub-white">Portali digitali che garantiscono chiarezza e partecipazione: documenti, atti e bandi accessibili a tutti.</p>
+    <div class="trans-grid">
+      <div class="trans-card" onclick="navigate('societa-trasparente')"><div class="trans-card-badge">🏛️</div><h3>Società Trasparente</h3><p>Atti, delibere e bilanci di AICA liberamente consultabili nel rispetto delle norme sulla trasparenza.</p><span class="trans-link">Apri il portale →</span></div>
+      <div class="trans-card" onclick="navigate('gare')"><div class="trans-card-badge">📝</div><h3>AICA TuttoGare</h3><p>Portale per gare, appalti e affidamenti. Bandi e procedure per imprese e professionisti.</p><span class="trans-link">Apri il portale →</span></div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="section-inner">
+    <div class="eyebrow">Accesso Rapido</div><h2 class="section-h2">Tutto in un click</h2>
+    <div class="ql-grid" style="margin-top:1.8rem">
+      ${[
+        {icon:'🔒',t:'Whistleblowing',d:'Segnala illeciti di interesse generale.',p:'whistleblowing'},
+        {icon:'💧',t:'Qualità dell\'Acqua',d:'Analisi certificate sull\'acqua distribuita.',p:'qualita-acqua'},
+        {icon:'📢',t:'Avvisi agli Utenti',d:'Comunicazioni attive sul servizio.',p:'avvisi'},
+        {icon:'📜',t:'Regolamento Utenza',d:'Disposizioni per gli utenti del servizio.',p:'regolamento'},
+        {icon:'⚖️',t:'Carta dei Servizi',d:'Diritti e standard qualitativi.',p:'carta-servizi'},
+        {icon:'👥',t:'Consulta degli Utenti',d:'Atti e verbali della Consulta.',p:'consulta'},
+      ].map(q=>`<div class="ql-card" onclick="navigate('${q.p}')">
+        <div class="ql-icon">${q.icon}</div>
+        <div><h4>${q.t}</h4><p>${q.d}</p></div>
+      </div>`).join('')}
+    </div>
+  </div></section>`;
+}
+
+/* ═══════════════════════════════
+   PAGE: ARTICOLO SINGOLO
+═══════════════════════════════ */
+function pageArticolo(params) {
+  const a = ARTICOLI[params.id];
+  if (!a) return `<section class="section"><div class="section-inner"><p>Articolo non trovato.</p></div></section>`;
+  const sezione = AVVISI_IMPORTANTI.find(x=>x.id===a.id) ? 'avvisi-importanti' : 'comunicati';
+  const sezLabel = sezione==='avvisi-importanti' ? 'Avvisi Importanti' : 'Comunicati';
+  return `
+    ${breadcrumb([{label:'Comunicazioni',page:'comunicazioni'},{label:sezLabel,page:sezione==='avvisi-importanti'?'avvisi':sezione},{label:a.titolo.substring(0,50)+'…',page:'articolo'}])}
+    ${pageHero(a.tipo.charAt(0).toUpperCase()+a.tipo.slice(1), a.titolo, a.estratto, tagClass(a.tipo), a.data)}
+    <section class="section"><div class="section-inner">
+      <div class="content-with-sidebar">
+        <div>
+          <a class="article-back" onclick="history.go(-1)">← Torna indietro</a>
+          <div class="article-meta">
+            <span class="news-row-tag ${tagClass(a.tipo)}">${a.tipo}</span>
+            <span style="font-size:.78rem;color:var(--gray-text)">📅 ${a.data}</span>
+          </div>
+          <div class="prose">${a.corpo}</div>
+        </div>
+        ${sidebar('Vedi anche',[
+          {icon:'📢',label:'Tutti gli Avvisi',page:'avvisi'},
+          {icon:'📋',label:'Comunicati Stampa',page:'comunicati'},
+          {icon:'📝',label:'Gare e Appalti',page:'gare'},
+          {icon:'💼',label:'Selezioni Personale',page:'selezioni'},
+          {icon:'🏛️',label:'Società Trasparente',page:'societa-trasparente'},
+        ])}
+      </div>
+    </div></section>`;
+}
+
+/* ═══════════════════════════════
+   PAGE: AVVISI LISTA
+═══════════════════════════════ */
+function pageAvvisi() {
+  return `
+    ${breadcrumb([{label:'Comunicazioni',page:'comunicazioni'},{label:'Avvisi',page:'avvisi'}])}
+    ${pageHero('Comunicazioni','Avvisi agli Utenti','Tutte le comunicazioni attive rivolte agli utenti del servizio idrico integrato di AICA.')}
+    ${avvisiImportantiBlock()}
+    <section class="section"><div class="section-inner">
+      <div class="eyebrow">Archivio Avvisi</div>
+      <h2 class="section-h2">Tutti i Comunicati</h2>
+      <div class="news-list" style="margin-top:1.5rem">
+        ${COMUNICATI.map(n=>`<div class="news-row" onclick="navigate('articolo',{id:'${n.id}'})">
+          <div class="news-row-date">${n.data}</div>
+          <div class="news-row-dot"></div>
+          <div class="news-row-content">
+            <span class="news-row-tag">${n.tipo}</span>
+            <div class="news-row-title">${n.titolo}</div>
+            <div class="news-row-excerpt">${n.estratto}</div>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div></section>`;
+}
+
+/* ═══════════════════════════════
+   PAGE: COMUNICATI
+═══════════════════════════════ */
+function pageComunicati() {
+  return `
+    ${breadcrumb([{label:'Comunicazioni',page:'comunicazioni'},{label:'Comunicati Stampa',page:'comunicati'}])}
+    ${pageHero('Comunicazioni','Comunicati Stampa','I comunicati ufficiali di AICA – Azienda Idrica Comuni Agrigentini.')}
+    <section class="section"><div class="section-inner">
+      <div class="news-list">
+        ${COMUNICATI.filter(n=>['Comunicato','Rete Idrica','Servizi','Lavori'].includes(n.tipo)).map(n=>`
+          <div class="news-row" onclick="navigate('articolo',{id:'${n.id}'})">
+            <div class="news-row-date">${n.data}</div>
+            <div class="news-row-dot"></div>
+            <div class="news-row-content">
+              <span class="news-row-tag">${n.tipo}</span>
+              <div class="news-row-title">${n.titolo}</div>
+              <div class="news-row-excerpt">${n.estratto}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div></section>`;
+}
+
+/* ═══════════════════════════════
+   PAGE: SELEZIONI
+═══════════════════════════════ */
+function pageSelezioni() {
+  return `
+    ${breadcrumb([{label:'Comunicazioni',page:'comunicazioni'},{label:'Selezioni Personale',page:'selezioni'}])}
+    ${pageHero('Lavora con noi','Selezioni Personale','Avvisi di selezione e opportunità di lavoro presso AICA.')}
+    <section class="section"><div class="section-inner">
+      <div class="news-list">
+        ${AVVISI_IMPORTANTI.filter(a=>a.tipo==='selezione').map(a=>`
+          <div class="news-row" onclick="navigate('articolo',{id:'${a.id}'})">
+            <div class="news-row-date">${a.data}</div>
+            <div class="news-row-dot"></div>
+            <div class="news-row-content">
+              <span class="news-row-tag selezione">${a.tipo}</span>
+              <div class="news-row-title">${a.titolo}</div>
+              <div class="news-row-excerpt">${a.estratto}</div>
+            </div>
+          </div>`).join('')}
+        ${[
+          {data:'Feb 2026',tipo:'selezione',titolo:'Operatore Esperto Auto Spurgo e Canal Jet – Riapertura selezione interinale (ADECCO)',estratto:'Riapertura della selezione per reclutamento personale tramite Agenzia ADECCO.',link:'https://go0.it/NNZ4o'},
+          {data:'Feb 2026',tipo:'selezione',titolo:'Addetto/a alle Comunicazioni Aziendali – Selezione interinale (ADECCO)',estratto:'',link:'https://go0.it/Z8OoZ'},
+          {data:'Nov 2025',tipo:'selezione',titolo:'Operatori Esperti Auto Spurgo – Selezione interinale (Osmosi S.p.A.)',estratto:'',link:'https://lavoro.agenziaperillavoroosmosispa.it/job/view-job.php?id=6084'},
+        ].map(n=>`<div class="news-row" onclick="window.open('${n.link}','_blank')">
+          <div class="news-row-date">${n.data}</div>
+          <div class="news-row-dot"></div>
+          <div class="news-row-content">
+            <span class="news-row-tag selezione">${n.tipo}</span>
+            <div class="news-row-title">${n.titolo}</div>
+            <div class="news-row-excerpt" style="color:var(--blue)">Apri avviso ↗</div>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div></section>`;
+}
+
+/* ═══════════════════════════════
+   PAGE: GARE
+═══════════════════════════════ */
+function pageGare() {
+  return `
+    ${breadcrumb([{label:'Trasparenza',page:'trasparenza'},{label:'Gare e Appalti',page:'gare'}])}
+    ${pageHero('Trasparenza','Gare e Appalti','Bandi, procedure di gara e affidamenti di AICA. Documentazione disponibile su TuttoGare.')}
+    <section class="section"><div class="section-inner">
+      <div class="info-box"><p>📋 La documentazione completa è su <strong>AICA TuttoGare</strong>. Clicca su ogni procedura per accedere alla scheda completa.</p></div>
+      <div class="news-list" style="margin-top:1.5rem">
+        ${[
+          {t:'Servizio trasporto acqua potabile a mezzo autobotti – Elenco aperto operatori',d:'In corso',l:'https://aica.tuttogare.it/albo_fornitori/dettaglio.php?codice=11'},
+          {t:'Servizio supporto gestione rete idrica e fognaria – Comune di Lampedusa e Linosa',d:'In corso',l:'https://aica.tuttogare.it/gare/dettaglio.php?codice=2735'},
+          {t:'Lavori completamento impianto depurazione – Comune di Racalmuto – CIG: BA54E552E4',d:'Scaduta 17/02/2026',l:'https://aica.tuttogare.it/gare/dettaglio.php?codice=2644'},
+          {t:'Noleggio cassoni e smaltimento rifiuti depurazione – Anni 2025/2026/2027',d:'In corso',l:'https://aica.tuttogare.it/gare/dettaglio.php?codice=2558'},
+          {t:'Lavori impianto depurazione Naro – CUP: C26G16000010004',d:'Scaduta 15/01/2026',l:'https://aica.tuttogare.it/gare/dettaglio.php?codice=2542'},
+          {t:'Servizio autospurgo reti fognarie – Anni 2025-2026',d:'Scaduta 22/09/2025',l:'https://aica.tuttogare.it/gare/dettaglio.php?codice=2054'},
+        ].map(g=>`<div class="news-row" onclick="window.open('${g.l}','_blank')">
+          <div class="news-row-date">${g.d}</div>
+          <div class="news-row-dot"></div>
+          <div class="news-row-content">
+            <span class="news-row-tag bando">Gara</span>
+            <div class="news-row-title">${g.t}</div>
+            <div class="news-row-excerpt" style="color:var(--blue)">Apri su TuttoGare ↗</div>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div></section>`;
+}
+
+/* ═══════════════════════════════
+   PAGE MAP
+═══════════════════════════════ */
+const pageMap = {
+  home: () => pageHome(),
+  articolo: (p) => pageArticolo(p),
+  avvisi: () => pageAvvisi(),
+  comunicati: () => pageComunicati(),
+  selezioni: () => pageSelezioni(),
+  gare: () => pageGare(),
+  comunicazioni: () => pageAvvisi(),
+
+  turni: () => `${breadcrumb([{label:'Turni Idrici',page:'turni'}])}
+    ${pageHero('Servizio Idrico','Turni Idrici Settimanali','Orari di distribuzione aggiornati per tutti i comuni della provincia di Agrigento serviti da AICA.')}
+    <section class="section"><div class="section-inner"><div class="content-with-sidebar">
+      <div class="prose">
+        <div class="info-box"><p>⚠️ I turni vengono aggiornati settimanalmente. Per confermare gli orari del tuo comune chiama il <strong>Centralino 0922 441 539</strong>.</p></div>
+        <h2>Turnazione per Comune</h2>
+        <table class="data-table"><thead><tr><th>Comune</th><th>Giorni</th><th>Fascia Oraria</th><th>Frequenza</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Agrigento</strong></td><td>Lun – Mer – Ven</td><td>06:00–22:00</td><td>A giorni alterni</td></tr>
+          <tr><td><strong>Licata</strong></td><td>Mar – Gio – Sab</td><td>07:00–21:00</td><td>A giorni alterni</td></tr>
+          <tr><td><strong>Canicattì</strong></td><td>Lun – Gio</td><td>08:00–20:00</td><td>2 volte/sett.</td></tr>
+          <tr><td><strong>Sciacca</strong></td><td>Mar – Ven</td><td>06:00–22:00</td><td>2 volte/sett.</td></tr>
+          <tr><td><strong>Ribera</strong></td><td>Lun – Mer – Sab</td><td>07:00–19:00</td><td>A giorni alterni</td></tr>
+          <tr><td><strong>Grotte</strong></td><td>Lun – Gio – Dom</td><td>06:00–18:00</td><td>3 volte/sett.</td></tr>
+          <tr><td><strong>Raffadali</strong></td><td>Mar – Ven</td><td>07:00–20:00</td><td>2 volte/sett.</td></tr>
+          <tr><td><strong>Realmonte</strong></td><td>Lun – Mer – Ven</td><td>08:00–22:00</td><td>A giorni alterni</td></tr>
+          <tr><td><strong>Casteltermini</strong></td><td>Mar – Gio – Dom</td><td>06:00–20:00</td><td>3 volte/sett.</td></tr>
+          <tr><td><strong>Montevago</strong></td><td>Mer – Sab</td><td>08:00–20:00</td><td>2 volte/sett.</td></tr>
+          <tr><td><strong>Lampedusa e Linosa</strong></td><td>Lun – Gio</td><td>06:00–14:00</td><td>2 volte/sett.</td></tr>
+        </tbody></table>
+        <div class="warning-box"><p>⚠️ Orari indicativi. Per emergenze o interruzioni chiama il numero verde <strong>800 600 309</strong> attivo H24.</p></div>
+      </div>
+      ${sidebar('Servizi Correlati',[
+        {icon:'🔢',label:'Autolettura Contatore',page:'autolettura'},
+        {icon:'📢',label:'Avvisi Interruzioni',page:'avvisi'},
+        {icon:'💧',label:"Qualità dell'Acqua",page:'qualita-acqua'},
+        {icon:'📄',label:'Modulistica',page:'modulistica'},
+      ])}
+    </div></div></section>`,
+
+  bollette: () => `${breadcrumb([{label:'Utenti',page:'utenti'},{label:'Bollette e Pagamenti',page:'bollette'}])}
+    ${pageHero('Utenti','Bollette e Pagamenti','Come leggere la bolletta idrica e tutti i metodi di pagamento disponibili.')}
+    <section class="section"><div class="section-inner"><div class="content-with-sidebar">
+      <div class="prose">
+        <div class="warning-box"><p>⚠️ <strong>IBAN aggiornato:</strong> Non usare più l'IBAN BCC Agrigentino. Usare: <strong>IT96S0103016600000004575756 – Monte dei Paschi</strong> oppure <strong>IT20T0760116600001056669052 – Poste Italiane</strong>.</p></div>
+        <h2>Come pagare</h2>
+        <h3>PagoPA</h3><p>Paga tramite PagoPA presso ricevitorie convenzionate, sportelli postali e online. Usa il codice avviso riportato sulla bolletta.</p>
+        <h3>Bonifico Bancario</h3>
+        <ul><li><strong>IT96S0103016600000004575756</strong> – Monte dei Paschi di Siena</li><li><strong>IT20T0760116600001056669052</strong> – Poste Italiane</li></ul>
+        <h3>Contanti o Carta</h3><p>Presso ricevitorie SisalPay e Banca5, o agli sportelli AICA con Bancomat/Carta di Credito.</p>
+        <h3>Sportelli Aziendali</h3>
+        <ul><li>Sede centrale – Aragonà (Zona Industriale Agrigento)</li><li>Licata · Ribera · Sciacca</li></ul>
+        <div class="info-box"><p>💡 <strong>Prenota online</strong> per evitare la fila allo sportello.</p></div>
+      </div>
+      ${sidebar('Utenti',[
+        {icon:'🎁',label:'Bonus Idrico',page:'bonus-idrico'},
+        {icon:'💰',label:'Tariffe',page:'tariffe'},
+        {icon:'🔢',label:'Autolettura',page:'autolettura'},
+        {icon:'📄',label:'Modulistica',page:'modulistica'},
+      ])}
+    </div></div></section>`,
+
+  modulistica: () => `${breadcrumb([{label:'Modulistica',page:'modulistica'}])}
+    ${pageHero('Documenti','Modulistica','Documentazione scaricabile per tutti i servizi AICA. Invia via PEC a pec.aica@pec.it')}
+    <section class="section"><div class="section-inner">
+      <div class="eyebrow">Allacciamenti</div><h2 class="section-h2">Modulistica Allacciamenti</h2>
+      <div class="download-list">
+        <a class="download-item" href="https://www.aicaonline.it/nuovo-allacciamento-di-singola-unita-immobiliare/" target="_blank"><div class="dl-left"><span class="dl-icon">📋</span><div><div class="dl-name">Allacciamento – Singola Unità Immobiliare</div><div class="dl-meta">Casa singola, villa, appartamento</div></div></div><span class="dl-badge">Apri</span></a>
+        <a class="download-item" href="https://www.aicaonline.it/nuovo-allacciamento-di-un-complesso-immobiliare-composto-da-piu-unita/" target="_blank"><div class="dl-left"><span class="dl-icon">📋</span><div><div class="dl-name">Allacciamento – Complesso Immobiliare</div><div class="dl-meta">Più unità immobiliari</div></div></div><span class="dl-badge">Apri</span></a>
+        <a class="download-item" href="https://www.aicaonline.it/wp-content/uploads/2026/02/RIU05N-200mt-2.pdf" target="_blank"><div class="dl-left"><span class="dl-icon">📄</span><div><div class="dl-name">Allacciamento – Zona Sprovvista di Acquedotto</div><div class="dl-meta">Immobile fuori rete (entro 200m)</div></div></div><span class="dl-badge">PDF</span></a>
+      </div>
+      <hr class="divider">
+      <div class="eyebrow">Utenza</div><h2 class="section-h2">Modulistica Utenza</h2>
+      <div class="download-list">
+        <a class="download-item" href="https://www.aicaonline.it/modulistica/" target="_blank"><div class="dl-left"><span class="dl-icon">📋</span><div><div class="dl-name">Voltura Utenza Idrica</div><div class="dl-meta">Cambio intestatario</div></div></div><span class="dl-badge">Apri</span></a>
+        <a class="download-item" href="https://www.aicaonline.it/modulistica/" target="_blank"><div class="dl-left"><span class="dl-icon">📋</span><div><div class="dl-name">Richiesta Disattivazione / Cessazione</div><div class="dl-meta">Cessazione del servizio</div></div></div><span class="dl-badge">Apri</span></a>
+        <a class="download-item" href="https://www.aicaonline.it/bonus-idrico/" target="_blank"><div class="dl-left"><span class="dl-icon">📋</span><div><div class="dl-name">Domanda Bonus Idrico</div><div class="dl-meta">Agevolazione tariffaria</div></div></div><span class="dl-badge">Apri</span></a>
+      </div>
+      <div class="info-box" style="margin-top:2rem"><p>📮 Invia la modulistica compilata via PEC a <strong>pec.aica@pec.it</strong> o consegnala in uno degli sportelli AICA.</p></div>
+    </div></section>`,
+
+  'qualita-acqua': () => `${breadcrumb([{label:'Utenti',page:'utenti'},{label:"Qualità dell'Acqua",page:'qualita-acqua'}])}
+    ${pageHero("Qualità","Qualità dell'Acqua","Dati e analisi certificate sull'acqua distribuita da AICA, effettuate da laboratori accreditati.")}
+    <section class="section"><div class="section-inner"><div class="content-with-sidebar">
+      <div class="prose">
+        <div class="info-box"><p>✅ L'acqua distribuita da AICA è <strong>potabile e sicura</strong>. Tutti i parametri rispettano il D.Lgs. 31/2001.</p></div>
+        <h2>Parametri di Qualità – Ultimo Trimestre</h2>
+        <table class="data-table"><thead><tr><th>Parametro</th><th>Valore</th><th>Limite</th><th>Unità</th></tr></thead>
+        <tbody>
+          <tr><td>pH</td><td>7.4</td><td>6.5–9.5</td><td>—</td></tr>
+          <tr><td>Cloro Residuo</td><td>0.15</td><td>≤ 0.2</td><td>mg/L</td></tr>
+          <tr><td>Durezza</td><td>28</td><td>15–50</td><td>°F</td></tr>
+          <tr><td>Nitrati</td><td>8.2</td><td>≤ 50</td><td>mg/L</td></tr>
+          <tr><td>Torbidità</td><td>0.4</td><td>≤ 1</td><td>NTU</td></tr>
+          <tr><td>Coliformi totali</td><td>0</td><td>0</td><td>UFC/100mL</td></tr>
+          <tr><td>E. coli</td><td>0</td><td>0</td><td>UFC/100mL</td></tr>
+        </tbody></table>
+      </div>
+      ${sidebar('Informazioni Utili',[
+        {icon:'🏛️',label:'Laboratorio di Analisi',page:'laboratorio'},
+        {icon:'📄',label:'Modulistica',page:'modulistica'},
+        {icon:'📋',label:'Carta dei Servizi',page:'carta-servizi'},
+      ])}
+    </div></div></section>`,
+
+  contatti: () => `${breadcrumb([{label:'Contatti',page:'contatti'}])}
+    ${pageHero('Contatti','Contatti e Sedi','Tutti i recapiti e le sedi di AICA per assistenza, emergenze e informazioni.')}
+    <section class="section"><div class="section-inner">
+      <div class="contact-grid">
+        <div class="contact-card"><h3>🚨 Pronto Intervento</h3><div class="contact-item"><strong>800 600 309</strong></div><div class="contact-item"><span>Numero verde gratuito H24. Guasti, perdite, emergenze idriche.</span></div></div>
+        <div class="contact-card"><h3>🔌 Allacci e Disattivazioni</h3><div class="contact-item"><strong>800 555 506</strong></div><div class="contact-item"><span>Nuovi allacci o disattivazioni. Gratuito solo da rete fissa.</span></div></div>
+        <div class="contact-card"><h3>📞 Centralino</h3><div class="contact-item"><strong>0922 441 539</strong></div><div class="contact-item"><span>Informazioni generali. Fax: 0922 624 004.</span></div></div>
+        <div class="contact-card"><h3>📧 Email e PEC</h3><div class="contact-item"><strong>info@aicaonline.it</strong></div><div class="contact-item"><strong>pec.aica@pec.it</strong></div><div class="contact-item"><span>La PEC è per comunicazioni formali.</span></div></div>
+      </div>
+      <hr class="divider">
+      <div class="eyebrow">Sedi</div><h2 class="section-h2">Sportelli e Sedi</h2>
+      <div class="contact-grid" style="margin-top:1.5rem">
+        <div class="contact-card"><h3>🏢 Sede Principale</h3><div class="contact-item"><span>ex S.S. 189 Valle del Platani, 92100 Agrigento (Zona Industriale)</span></div></div>
+        <div class="contact-card"><h3>🏢 Sportelli Periferici</h3><div class="contact-item"><span>Licata · Ribera · Sciacca</span></div><div class="contact-item"><span style="color:var(--red);font-size:.82rem">⚠️ Ribera, Raffadali, Casteltermini, Grotte, Montevago, Realmonte, Cattolica Eraclea temporaneamente chiusi.</span></div></div>
+      </div>
+    </div></section>`,
+
+  trasparenza: () => `${breadcrumb([{label:'Trasparenza',page:'trasparenza'}])}
+    ${pageHero('Trasparenza','AICA per la Trasparenza','Portali digitali per garantire chiarezza e partecipazione cittadina.')}
+    <section class="section"><div class="section-inner">
+      <div class="trans-grid">
+        <div class="trans-card" onclick="window.open('https://aica.onlinepa.info/?page=moduli&mod=6&ente=1','_blank')"><div class="trans-card-badge">🏛️</div><h3>Società Trasparente</h3><p>Documenti, atti e dati aziendali, delibere e bilanci accessibili ai cittadini.</p><span class="trans-link">Apri il portale →</span></div>
+        <div class="trans-card" onclick="window.open('https://aica.tuttogare.it/','_blank')"><div class="trans-card-badge">📝</div><h3>AICA TuttoGare</h3><p>Gare, appalti e affidamenti. Bandi e procedure per imprese e professionisti.</p><span class="trans-link">Apri il portale →</span></div>
+        <div class="trans-card" onclick="navigate('whistleblowing')"><div class="trans-card-badge">🔒</div><h3>Whistleblowing</h3><p>Piattaforma per segnalare illeciti di interesse generale in ambito lavorativo.</p><span class="trans-link">Scopri →</span></div>
+        <div class="trans-card" onclick="navigate('selezioni')"><div class="trans-card-badge">💼</div><h3>Avvisi di Selezione</h3><p>Bandi e avvisi di selezione del personale pubblicati da AICA.</p><span class="trans-link">Vedi avvisi →</span></div>
+      </div>
+    </div></section>`,
+};
+
+/* Pagine placeholder */
+['utenti','bonus-idrico','tariffe','regolamento','autolettura','lettura-contatori',
+ 'informazioni-utenti','allacciamento','allaccio-singolo','allaccio-complesso',
+ 'allaccio-zona','autobotte','sedi','laboratorio','lazienda','societa-trasparente',
+ 'feedback','privacy','accessibilita','consulta','carta-servizi','whistleblowing'].forEach(p => {
+  if (!pageMap[p]) {
+    const titles = {'bonus-idrico':'Bonus Idrico','tariffe':'Tariffe','regolamento':'Regolamento Utenza','autolettura':'Autolettura Contatore','lettura-contatori':'Calendario Lettura Contatori','informazioni-utenti':'Informazioni per gli Utenti','allacciamento':'Allacciamenti','allaccio-singolo':'Allaccio Singola Abitazione','allaccio-complesso':'Allaccio Complesso Immobiliare','allaccio-zona':'Zona senza Acquedotto','autobotte':'Fornitura Autobotte','sedi':'Sedi e Sportelli','laboratorio':'Laboratorio di Analisi','lazienda':"L'Azienda",'societa-trasparente':'Società Trasparente','feedback':'Feedback','privacy':'Privacy','accessibilita':'Accessibilità','consulta':'Consulta degli Utenti','carta-servizi':'Carta dei Servizi','utenti':'Servizi all\'Utenza','whistleblowing':'Whistleblowing'};
+    pageMap[p] = () => `${breadcrumb([{label:titles[p]||p,page:p}])}
+      ${pageHero('AICA',titles[p]||p,'')}
+      <section class="section"><div class="section-inner prose" style="max-width:860px">
+        <div class="info-box"><p>Sezione in aggiornamento. Per informazioni immediate chiama il <strong>0922 441 539</strong> o scrivi a <strong>info@aicaonline.it</strong>.</p></div>
+        <p>Il contenuto completo di questa sezione sarà disponibile a breve.</p>
+        <br><button class="btn-solid" onclick="navigate('home')" style="border:none">← Torna alla Home</button>
+      </div></section>`;
+  }
+});
+
+/* ═══════════════════════════════
+   RENDER ENGINE
+═══════════════════════════════ */
+function renderPage(page, params={}) {
+  const render = pageMap[page] || pageMap['home'];
+  app.innerHTML = render(params);
+  setTimeout(() => {
+    document.querySelectorAll('.card,.ql-card,.trans-card,.download-item,.news-row,.avviso-row,.avviso-banner,.contact-card').forEach((el,i) => {
+      el.style.opacity='0'; el.style.transform='translateY(14px)';
+      el.style.transition=`opacity .35s ${i*.04}s ease, transform .35s ${i*.04}s ease`;
+      requestAnimationFrame(()=>{ el.style.opacity='1'; el.style.transform='translateY(0)'; });
+    });
+    if (page==='home') {
+      const heroEl = document.getElementById('hero-parallax');
+      window.onscroll = () => {
+        document.getElementById('site-header').style.boxShadow = window.scrollY>10?'0 4px 20px rgba(0,0,0,.12)':'0 2px 12px rgba(0,0,0,.08)';
+        if(heroEl) heroEl.style.transform=`translateY(${window.scrollY*.2}px)`;
+      };
+    } else {
+      window.onscroll = () => {
+        document.getElementById('site-header').style.boxShadow = window.scrollY>10?'0 4px 20px rgba(0,0,0,.12)':'0 2px 12px rgba(0,0,0,.08)';
+      };
+    }
+  }, 60);
+}
+
+renderPage('home');
+</script>
+</body>
+</html>
